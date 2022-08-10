@@ -39,13 +39,13 @@
    - для конфигурации с базой данный MySQL:
 
       ````
-      java -Dspring.datasource.url=jdbc:mysql://192.168.99.100:3306/app -jar aqa-shop.jar
+      java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar aqa-shop.jar
       ````
 
    - для конфигурации с базой данных PostgreSQL:
 
        ````
-       java -Dspring.datasource.url=jdbc:postgresql://192.168.99.100:5432/app -jar aqa-shop.jar
+       java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar aqa-shop.jar
        ```` 
 
 1. В браузере открыть SUT в окне с адресом
