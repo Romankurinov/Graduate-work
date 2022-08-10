@@ -54,13 +54,13 @@
       ````
 1. Запустить автотесты командой
 
-   -  для конфигурации с MySql
+   -  для конфигурации с MySQL
 
       ````
       gradlew test -Dtest.dburl=jdbc:mysql://192.168.99.100:3306/app
       ````
 
-   - для конфигурации с postgresql
+   - для конфигурации с PostgreSQL
 
       ````
       gradlew test -Dtest.dburl=jdbc:postgresql://192.168.99.100:5432/app
