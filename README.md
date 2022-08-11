@@ -57,13 +57,13 @@
    -  для конфигурации с MySQL
 
       ````
-      gradlew test -Dtest.dburl=jdbc:mysql://192.168.99.100:3306/app
+      gradlew test -Dtest.dburl=jdbc:mysql://localhost:3306/app
       ````
 
    - для конфигурации с PostgreSQL
 
       ````
-      gradlew test -Dtest.dburl=jdbc:postgresql://192.168.99.100:5432/app
+      gradlew test -Dtest.dburl=jdbc:postgresql://localhost:5432/app
       ````
 1. Остановить SUT командой CTRL + C
 
