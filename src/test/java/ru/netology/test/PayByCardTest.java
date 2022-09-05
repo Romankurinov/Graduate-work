@@ -83,7 +83,7 @@ public class PayByCardTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Номер карты буквенных символов
+    // Ввод в поле Номер карты буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldHaveErrorTextIfPutTextInCardNumber() {
         val cardData = getLetters();
@@ -91,20 +91,20 @@ public class PayByCardTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Номер карты несуществующий номер карты
+    // Ввод в поле Номер карты несуществующий номер карты (тест прошел)
     @Test
     public void shouldHaveErrorNotificationIfPutUnrealCardNumber() {
         val cardData = getNonExistentCardNumber();
         purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        purchasePage.failureResultNotification();
     }
 
-    // Ввод нулей в поле Номер карты
+    // Ввод нулей в поле Номер карты (тест прошел)
     @Test
     public void shouldAnErrorAppearWhenEnteringZerosInTheCardNumber() {
         val cardData = getEnteringZeros();
         purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        purchasePage.failureResultNotification();
     }
 
     // Оплата картой, которой нет в БД (тест прошел)
@@ -140,8 +140,7 @@ public class PayByCardTest extends BaseUITest {
         purchasePage.invalidCardExpirationDateError();
     }
 
-    // Ввод в поле Месяц значения больше 12 (тест прошел, но в качестве пожелания лучше указать ошибку "Введите срок
-    // действия как указано на карте")
+    // Ввод в поле Месяц значения больше 12 (тест прошел)
     @Test
     public void shouldHaveMonthMore12() {
         val cardData = getMonthMore12();
@@ -157,7 +156,7 @@ public class PayByCardTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Месяц буквенных символов
+    // Ввод в поле Месяц буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldMonthFieldWithLetters() {
         val cardData = getLettersMonth();
@@ -198,7 +197,7 @@ public class PayByCardTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Год буквенных символов
+    // Ввод в поле Год буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldYearFieldWithLetters() {
         val cardData = getYearLetters();

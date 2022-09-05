@@ -39,7 +39,7 @@ public class DataHelper {
 
     // Данные валидной карты
     public static CardData getApprovedNumber() {
-        return getCardDataEn(approvedNumber);
+                return getCardDataEn(approvedNumber);
     }
 
     // Данные невалидной карты
@@ -47,19 +47,19 @@ public class DataHelper {
         return getCardDataEn(declinedNumber);
     }
 
-    // Ввод в поле "Номер карты" карты с недостаточным количеством цифр (минимальное количество цифр в карте 13)
-    public static CardData getNumberIfFewDigits() {
-        return getCardDataEn("card" + approvedNumber.substring(3));
-    }
-
     // Пустое поле "Номер карты"
     public static CardData getEmptyNumber() {
         return getCardDataEn("");
     }
 
+    // Ввод в поле "Номер карты" карты с недостаточным количеством цифр (минимальное количество цифр в карте 13)
+    public static CardData getNumberIfFewDigits() {
+        return getCardDataEn("card" + approvedNumber.substring(3));
+    }
+
     // Ввод буквенных символов в поле "Номер карты"
     public static CardData getLetters() {
-        return getCardDataEn("card" + fakerEN);
+        return getCardDataEn("ABCDI");
     }
 
     // Несуществующий номер карты
@@ -83,36 +83,10 @@ public class DataHelper {
     }
 
 
-    // Ввод в поле Месяц одной цифры
-    public static CardData getMonthWithOneDigit() {
-        CardData card = getCardDataEn(approvedNumber);
-        card.setMonth(Integer.toString(fakerEN.number().numberBetween(1, 9)));
-        return card;
-    }
-
-    // Истек срок действия карты
-    public static CardData getExpiredCard() {
-        CardData card = getCardDataEn(approvedNumber);
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -0);
-        int numberYear = calendar.get(Calendar.YEAR) % 1000;
-        card.setYear(Integer.toString(numberYear));
-        int numberMonth = calendar.get(Calendar.MONTH);
-        card.setMonth(String.format("%2d", numberMonth).replace(" ", "0"));
-        return card;
-    }
-
     // Пустое поле Месяц
     public static CardData getEmptyMonth() {
         CardData card = getCardDataEn(approvedNumber);
         card.setMonth("");
-        return card;
-    }
-
-    // Ввод буквенных символов в поле Месяц
-    public static CardData getLettersMonth() {
-        CardData card = getCardDataEn(approvedNumber);
-        card.setMonth("AB");
         return card;
     }
 
@@ -130,11 +104,44 @@ public class DataHelper {
         return card;
     }
 
-
-    // Ввод в поле Год 1 цифры
-    public static CardData getYearWithOneDigit() {
+    // Ввод в поле Месяц одной цифры
+    public static CardData getMonthWithOneDigit() {
         CardData card = getCardDataEn(approvedNumber);
-        card.setYear(Integer.toString(fakerEN.number().numberBetween(1, 9)));
+        card.setMonth(Integer.toString(fakerEN.number().numberBetween(1, 9)));
+        return card;
+    }
+
+    // Ввод буквенных символов в поле Месяц
+    public static CardData getLettersMonth() {
+        CardData card = getCardDataEn(approvedNumber);
+        card.setMonth("AB");
+        return card;
+    }
+
+
+    // Пустое поле Год
+    public static CardData getEmptyYear() {
+        CardData card = getCardDataEn(approvedNumber);
+        card.setYear("");
+        return card;
+    }
+
+    // Истек срок действия карты
+    public static CardData getExpiredCard() {
+        CardData card = getCardDataEn(approvedNumber);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -0);
+        int numberYear = calendar.get(Calendar.YEAR) % 1000;
+        card.setYear(Integer.toString(numberYear));
+        int numberMonth = calendar.get(Calendar.MONTH);
+        card.setMonth(String.format("%2d", numberMonth).replace(" ", "0"));
+        return card;
+    }
+
+    // Ввод в Поле Год нулевых значений
+    public static CardData getYearWithZero() {
+        CardData card = getCardDataEn(approvedNumber);
+        card.setYear("00");
         return card;
     }
 
@@ -146,6 +153,13 @@ public class DataHelper {
         return card;
     }
 
+    // Ввод в поле Год 1 цифры
+    public static CardData getYearWithOneDigit() {
+        CardData card = getCardDataEn(approvedNumber);
+        card.setYear(Integer.toString(fakerEN.number().numberBetween(1, 9)));
+        return card;
+    }
+
     // Ввод буквенных символов в поле Год
     public static CardData getYearLetters() {
         CardData card = getCardDataEn(approvedNumber);
@@ -153,27 +167,6 @@ public class DataHelper {
         return card;
     }
 
-    // Ввод в Поле Год нулевых значений
-    public static CardData getYearWithZero() {
-        CardData card = getCardDataEn(approvedNumber);
-        card.setYear("00");
-        return card;
-    }
-
-    // Пустое поле Год
-    public static CardData getEmptyYear() {
-        CardData card = getCardDataEn(approvedNumber);
-        card.setYear("");
-        return card;
-    }
-
-
-    // Направление заявки с указанием в поле Владелец фамилии и имени на кириллице
-    public static CardData getRussianHolder() {
-        CardData card = getCardDataEn(approvedNumber);
-        card.setHolder(fakerRU.name().firstName() + " " + fakerRU.name().lastName());
-        return card;
-    }
 
     // Пустое поле Владелец
     public static CardData getEmptyHolder() {
@@ -182,12 +175,17 @@ public class DataHelper {
         return card;
     }
 
-    // Ввод в поле Владелец спецсимволов
-    public static CardData getSpecialCharactersInHolder() {
+    // Ввод в поле Владелец только фамилии
+    public static CardData getHolderWithoutName() {
         CardData card = getCardDataEn(approvedNumber);
-        FakeValuesService fakeValuesService = new FakeValuesService(
-                new Locale("en-US"), new RandomService());
-        card.setHolder(fakeValuesService.regexify("[\\-\\=\\+\\<\\>\\!\\@\\#\\$\\%\\^\\{\\}]{1,10}"));
+        card.setHolder(fakerEN.name().lastName());
+        return card;
+    }
+
+    // Направление заявки с указанием в поле Владелец фамилии и имени на кириллице
+    public static CardData getRussianHolder() {
+        CardData card = getCardDataEn(approvedNumber);
+        card.setHolder(fakerRU.name().firstName() + " " + fakerRU.name().lastName());
         return card;
     }
 
@@ -198,10 +196,12 @@ public class DataHelper {
         return card;
     }
 
-    // Ввод в поле Владелец только фамилии
-    public static CardData getHolderWithoutName() {
+    // Ввод в поле Владелец спецсимволов
+    public static CardData getSpecialCharactersInHolder() {
         CardData card = getCardDataEn(approvedNumber);
-        card.setHolder(fakerEN.name().lastName());
+        FakeValuesService fakeValuesService = new FakeValuesService(
+                new Locale("en-US"), new RandomService());
+        card.setHolder(fakeValuesService.regexify("[\\-\\=\\+\\<\\>\\!\\@\\#\\$\\%\\^\\{\\}]{1,10}"));
         return card;
     }
 
@@ -265,5 +265,6 @@ public class DataHelper {
     public static CardData getCardDataIfEmptyAllFields(){
         return new CardData("", "", "", "", "");
     }
+
 
 }

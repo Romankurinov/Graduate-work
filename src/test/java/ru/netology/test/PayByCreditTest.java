@@ -80,7 +80,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Номер карты буквенных символов
+    // Ввод в поле Номер карты буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldHaveErrorTextIfPutTextInCardNumber() {
         val cardData = getLetters();
@@ -88,7 +88,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Номер карты несуществующий номер карты
+    // Ввод в поле Номер карты несуществующий номер карты (тест прошел)
     @Test
     public void shouldHaveErrorNotificationIfPutUnrealCardNumber() {
         val cardData = getNonExistentCardNumber();
@@ -96,7 +96,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод нулей в поле Номер карты
+    // Ввод нулей в поле Номер карты (тест прошел)
     @Test
     public void shouldAnErrorAppearWhenEnteringZerosInTheCardNumber() {
         val cardData = getEnteringZeros();
@@ -154,7 +154,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Месяц буквенных символов
+    // Ввод в поле Месяц буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldMonthFieldWithLetters() {
         val cardData = getLettersMonth();
@@ -195,7 +195,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Ввод в поле Год буквенных символов
+    // Ввод в поле Год буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldYearFieldWithLetters() {
         val cardData = getYearLetters();
@@ -303,7 +303,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Поле CVC-код с буквенными символами (тест не прошел)
+    // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
     @Test
     public void shouldCvcCodeFieldWithLetters() {
         val cardData = getCvcCodeWithZero();
@@ -311,7 +311,7 @@ public class PayByCreditTest extends BaseUITest {
         purchasePage.incorrectFormatError();
     }
 
-    // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
+    // Поле CVC-код с буквенными символами (тест прошел)
     @Test
     public void shouldHaveCvcCodeWithZero() {
         val cardData = getCvcCodeLetters();

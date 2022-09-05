@@ -1,114 +1,69 @@
 # Дипломный проект профессии «Тестировщик»
 
-Дипломный проект представляет собой автоматизацию тестирования
-комплексного сервиса, взаимодействующего с СУБД и API Банка.
+## О проекте
+В рамках данного проекта необходимо автоматизировать тестирование веб-сервиса покупки тура, взаимодействующего с СУБД и API Банка.
 
-### План автоматизации
-[Plan.md](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Plan.md)
+## Документация:
+[План по автоматизации тестирования](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Plan.md)
 
-### Отчётные документы по итогам тестирования
+[Отчет по итогам автоматизированного тестирования](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Report.md)
 
-**Отчёт о проведённом тестировании**
+[Отчет по итогам автоматизации](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Summary.md)
 
-[Report.md](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Report.md)
+## Необходимое окружение:
+* Docker Desktop. Скачать и ознакомиться с документацией можно [здесь](https://www.docker.com/products/docker-desktop);
 
-### Отчётные документы по итогам автоматизации
+* AdoptOpenJDK 16.0. Скачать и ознакомиться с документацией можно [здесь](https://adoptopenjdk.net/index.html);
 
-[Summary.md](https://github.com/Romankurinov/Graduate-work/blob/master/docs/Summary.md)
+* IntelliJ Idea. Скачать и ознакомиться с документацией можно [здесь](https://www.jetbrains.com/ru-ru/idea/).
 
-## Запуск приложения
+## Запуск тестов
 
-Для запуска необходимы следующие инструменты:
+Перед запуском тестов необходимо убедиться, что  порты  8080, 9999 и 5432 или 3306 (в зависимости от выбранной БД) свободны;
 
-* Git
-* Java SE JDK 11
-* браузер Google Chrome
-* Docker (Docker Desktop), либо Node.js
-* СУБД: MySQL 8 или Postgres 12.
+1. Склонируйте репозиторий, введя команду git clone https://github.com/Romankurinov/Graduate-work.git в Git Bash или воспользуйтесь VCS Git, встроенной в IntelliJ IDEA.
 
-1. Запустить Docker Desktop (Если установлен Docker, то в файле application.properties
-   нужно вместо ip хоста написать localhost)
-1. Загрузить контейнеры mysql, postgres и образ платежного шлюза nodejs в терминале IDEA командой
+2. Откройте проект в IntelliJ IDEA
 
-    ````
-    docker-compose up
-    ````
+3. В терминале введите команду `docker-compose up -d`. Параметры для запуска хранятся в файле `docker-compose.yml`
 
-1. Во втором терминале в папке artifacts запустить SUT командой
+4. Приложение запускается на порту 8080, по умолчанию используется БД MySQL
 
-   - для конфигурации с базой данный MySQL:
+При необходимости изменения порта замените `sut.url` в `build.gradle` на `systemProperty 'sut.url', System.getProperty('sut.url', 'http://localhost:8090')`
 
-      ````
-      java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar aqa-shop.jar
-      ````
+Для изменения БД замените `db.url` на `systemProperty 'db.url', System.getProperty('db.url', 'jdbc:postgresql://localhost:5432/app')`
 
-   - для конфигурации с базой данных PostgreSQL:
+В новой вкладке терминала введите команду:
 
-       ````
-       java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar aqa-shop.jar
-       ```` 
+- `java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar` - для БД MySQL
 
-1. В браузере открыть SUT в окне с адресом
-      ````
-      localhost:8080
-      ````
-1. Запустить автотесты командой
+- `java "-Dspring.datasource-postgresql.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
 
-   -  для конфигурации с MySQL
+При изменении порта для запуска тестов необходимо указать:
 
-      ````
-      gradlew test -Dtest.dburl=jdbc:mysql://localhost:3306/app
-      ````
+- `java "-Dserver.port=8090 -Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar` - для БД MySQL
 
-   - для конфигурации с PostgreSQL
+- `java "-Dserver.port=8090 -Dspring.datasource-postgresql.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
 
-      ````
-      gradlew test -Dtest.dburl=jdbc:postgresql://localhost:5432/app
-      ````
-1. Остановить SUT командой CTRL + C
+5. В новой вкладке терминала введите команду в зависимости от запущенной ранее БД:
+- `gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app` - для БД MySQL
 
-1. Остановить контейнеры командой CTRL + C и после удалить контейнеры командой
+- `gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app` - для БД PostgreSQL
 
-      ````
-      docker-compose down
-      ````     
 
-## Описание приложения
+## Подготовка отчета Allure
+При необходимости создания отчета тестирования, запустите тесты следующим образом:
+- `gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app allureReport` - для БД MysSQL
 
-Приложение представляет из себя веб-сервис по покупке тура.
-Приложение предлагает купить тур по определённой цене с помощью двух способов:
+- `gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app allureReport` - для БД Postgresql
 
-1. Обычная оплата по дебетовой карте
-1. Уникальная технология: выдача кредита по данным банковской карты
+`allureReport` - используется при первой генерации отчета.
 
-Само приложение не обрабатывает данные по картам, а пересылает их
-банковским сервисам:
+При повторной генерации отчета необходимо запускать тесты командой:
+- `gradlew test -Ddb.url=jdbc:mysql://localhost:3306/app allureServe` - для БД MysSQL
 
-* сервису платежей (Payment Gate)
-* кредитному сервису (Credit Gate)
+- `gradlew test -Ddb.url=jdbc:postgresql://localhost:5432/app allureServe` - для БД Postgresql
 
-Приложение должно в собственной СУБД сохранять информацию о том,
-каким способом был совершён платёж и успешно ли он был совершён
-(при этом данные карт сохранять не допускается).
+Отчет открывается после прохождения тестов автоматически в браузере по умолчанию.
 
-В файле application.properties:
-
-* учётные данные
-* url-адреса банковских сервисов
-
-Заявлена поддержка двух **СУБД**:
-
-* MySQL
-* PostgreSQL
-
-Симулятор банковских сервисов написан на Node.js.
-Симулятор расположен в каталоге gate-simulator.
-Для запуска необходимо перейти в этот каталог.
-Запускается на порту 9999.
-
-Симулятор позволяет для заданного набора карт генерировать
-предопределённые ответы.
-
-Набор карт представлен в формате JSON в файле data.json.
-
-Разработчики сделали один сервис, симулирующий и Payment Gate, и Credit Gate.
+Если потребуется преждевременно завершить прохождение тестов, наберите команду Ctrl+C, далее Y. Для остановки контейнеров необходимо ввести команду `docker-compose down`
