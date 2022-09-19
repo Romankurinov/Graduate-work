@@ -28,9 +28,9 @@ public class SQLHelper {
 
     public static void dropDataBase() {
         val runner = new QueryRunner();
-        val order = "DELETE FROM app.order_entity";
-        val payment = "DELETE FROM app.payment_entity";
-        val creditRequest = "DELETE FROM app.credit_request_entity";
+        val order = "DELETE FROM order_entity";
+        val payment = "DELETE FROM payment_entity";
+        val creditRequest = "DELETE FROM credit_request_entity";
 
         try (val connection = getConnection()) {
             runner.update(connection, order);
@@ -42,7 +42,7 @@ public class SQLHelper {
     }
 
     public static String getCardStatusForPayWithCard() {
-        String statusQuery = "SELECT * FROM app.payment_entity";
+        String statusQuery = "SELECT * FROM payment_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
             val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(PaymentEntity.class));
@@ -54,7 +54,7 @@ public class SQLHelper {
     }
 
     public static String getCardStatusForPayWithCredit() {
-        String statusQuery = "SELECT * FROM app.credit_request_entity";
+        String statusQuery = "SELECT * FROM credit_request_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
             val cardStatus = runner.query(connection, statusQuery, new BeanHandler<>(CreditRequestEntity.class));
@@ -66,7 +66,7 @@ public class SQLHelper {
     }
 
     public static String getPaymentIdForPayWithCard() {
-        val idQueryForCardPay = "SELECT * FROM app.order_entity";
+        val idQueryForCardPay = "SELECT * FROM order_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
             val paymentId = runner.query(connection, idQueryForCardPay, new BeanHandler<>(OrderEntity.class));
@@ -78,7 +78,7 @@ public class SQLHelper {
     }
 
     public static String getPaymentIdForPayWithCredit() {
-        val idQueryForCreditRequest = "SELECT * FROM app.order_entity";
+        val idQueryForCreditRequest = "SELECT * FROM order_entity";
         val runner = new QueryRunner();
         try (val connection = getConnection()) {
             val paymentId = runner.query(connection, idQueryForCreditRequest, new BeanHandler<>(OrderEntity.class));
@@ -91,7 +91,7 @@ public class SQLHelper {
 
     public static String getTransactionId() {
         val runner = new QueryRunner();
-        String idTransactionQuery = "SELECT * FROM app.payment_entity";
+        String idTransactionQuery = "SELECT * FROM payment_entity";
         try (Connection connection = getConnection()) {
             val transactionId = runner.query(connection, idTransactionQuery, new BeanHandler<>(PaymentEntity.class));
             return transactionId.getTransaction_id();
@@ -103,7 +103,7 @@ public class SQLHelper {
 
     public static String getAmountPurchase() {
         val runner = new QueryRunner();
-        String amountQuery = "SELECT * FROM app.payment_entity";
+        String amountQuery = "SELECT * FROM payment_entity";
         try (Connection connection = getConnection()) {
             val transactionId = runner.query(connection, amountQuery, new BeanHandler<>(PaymentEntity.class));
             return transactionId.getAmount();
@@ -114,7 +114,7 @@ public class SQLHelper {
     }
 
     public static String getBankId() {
-        String bankIdQuery = "SELECT * FROM app.credit_request_entity";
+        String bankIdQuery = "SELECT * FROM credit_request_entity";
         val runner = new QueryRunner();
         try (Connection connection = getConnection()) {
             val bankId = runner.query(connection, bankIdQuery, new BeanHandler<>(CreditRequestEntity.class));

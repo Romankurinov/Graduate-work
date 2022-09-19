@@ -10,7 +10,7 @@ import static ru.netology.data.DataHelper.getDeclinedNumber;
 
 public class APITest {
 
-    //Оплата валидной картой, статус карты APPROVED
+    //Оплата валидной картой, статус карты APPROVED (тест прошел)
     @Test
     void shouldStatusPayWithValidApprovedCardNumber() {
         val validApprovedCardNumber = getApprovedNumber();
@@ -18,7 +18,7 @@ public class APITest {
         assertTrue(status.contains("APPROVED"));
     }
 
-    //Оплата невалидной картой, статус карты DECLINED
+    //Оплата невалидной картой, статус карты DECLINED (тест прошел)
     @Test
     void shouldStatusPayWithValidDeclinedCardNumber() {
         val validDeclinedCardNumber = getDeclinedNumber();
@@ -26,7 +26,7 @@ public class APITest {
         assertTrue(status.contains("DECLINED"));
     }
 
-    //Оплата валидной картой в кредит, статус карты APPROVED
+    //Оплата валидной картой в кредит, статус карты APPROVED (тест прошел)
     @Test
     void shouldStatusPayWithCreditValidApprovedCardNumber() {
         val validApprovedCardNumber = getApprovedNumber();
@@ -34,7 +34,7 @@ public class APITest {
         assertTrue(status.contains("APPROVED"));
     }
 
-    //Оплата невалидной картой в кредит, статус карты DECLINED
+    //Оплата невалидной картой в кредит, статус карты DECLINED (тест прошел)
     @Test
     void shouldStatusPayWithCreditValidDeclinedCardNumber() {
         val validDeclinedCardNumber = getDeclinedNumber();

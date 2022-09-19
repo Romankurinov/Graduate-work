@@ -5,10 +5,9 @@ plugins {
 }
 
 allure {
-    autoconfigure = true
-    version = '2.14.0'
+    version = '2.18.1'
     useJUnit5 {
-        version = '2.14.0'
+        version = '2.18.1'
     }
 }
 

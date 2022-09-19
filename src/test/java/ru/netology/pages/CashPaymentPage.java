@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class PurchasePage {
+public class CashPaymentPage {
 
     private final SelenideElement numberField = $("input[placeholder='0000 0000 0000 0000']");
     private final SelenideElement monthField = $("input[placeholder='08']");

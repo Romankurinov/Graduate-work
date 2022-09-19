@@ -13,12 +13,13 @@ import static com.codeborne.selenide.Selenide.open;
 public class BaseUITest {
 
     @BeforeAll
-    static void setUpAll() { SelenideLogger.addListener("allure", new AllureSelenide()); }
+    static void setUpAll() {
+        SelenideLogger.addListener("allure", new AllureSelenide());
+    }
 
     @AfterAll
     static void tearDownAll() {
-        SelenideLogger.removeListener("allure");
-    }
+        SelenideLogger.removeListener("allure");}
 
     @AfterEach
     void cleanDataBases() {

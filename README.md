@@ -37,13 +37,13 @@
 
 - `java "-Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar` - для БД MySQL
 
-- `java "-Dspring.datasource-postgresql.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
+- `java "-Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
 
 При изменении порта для запуска тестов необходимо указать:
 
 - `java "-Dserver.port=8090 -Dspring.datasource.url=jdbc:mysql://localhost:3306/app" -jar artifacts/aqa-shop.jar` - для БД MySQL
 
-- `java "-Dserver.port=8090 -Dspring.datasource-postgresql.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
+- `java "-Dserver.port=8090 -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
 
 5. В новой вкладке терминала введите команду в зависимости от запущенной ранее БД:
 - `gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app` - для БД MySQL

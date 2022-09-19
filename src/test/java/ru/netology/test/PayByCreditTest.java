@@ -6,8 +6,8 @@ import com.codeborne.selenide.SelenideElement;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.pages.MainPage;
-import ru.netology.pages.PurchasePage;
+import ru.netology.pages.CreditPayPage;
+import ru.netology.pages.PaymentChoosePage;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,20 +18,20 @@ import static ru.netology.data.SQLHelper.getBankId;
 
 public class PayByCreditTest extends BaseUITest {
 
-    MainPage mainPage = new MainPage();
-    PurchasePage purchasePage = new PurchasePage();
+    PaymentChoosePage paymentChoosePage = new PaymentChoosePage();
+    CreditPayPage creditPayPage = new CreditPayPage();
 
     @BeforeEach
     void setUpForPayWithCard() {
-        mainPage.payWithCredit();
+        paymentChoosePage.payWithCredit();
     }
 
     // Успешная покупка тура за счет кредитных средств, карта со статусом APPROVED (тест прошел)
     @Test
     public void shouldSuccessCreditRequestIfValidApprovedCard() {
         val cardData = getApprovedNumber();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.successResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.successResultNotification();
 
         val expectedStatus = "APPROVED";
         val actualStatus = getCardStatusForPayWithCredit();
@@ -48,8 +48,8 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldFailureCreditRequestIfValidDeclinedCard() {
         val cardData = getDeclinedNumber();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.failureResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.failureResultNotification();
 
         val expectedStatus = "DECLINED";
         val actualStatus = getCardStatusForPayWithCredit();
@@ -67,8 +67,8 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyNumber() {
         val cardData = getEmptyNumber();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.emptyFieldError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.emptyFieldError();
     }
 
     // Ввод в поле Номер карты недостаточного количества цифр (тест прошел, но лучше указывать ошибку "Указано
@@ -76,40 +76,40 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFewDigits() {
         val cardData = getNumberIfFewDigits();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Номер карты буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldHaveErrorTextIfPutTextInCardNumber() {
         val cardData = getLetters();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Номер карты несуществующий номер карты (тест прошел)
     @Test
     public void shouldHaveErrorNotificationIfPutUnrealCardNumber() {
         val cardData = getNonExistentCardNumber();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод нулей в поле Номер карты (тест прошел)
     @Test
     public void shouldAnErrorAppearWhenEnteringZerosInTheCardNumber() {
         val cardData = getEnteringZeros();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Оплата картой, которой нет в БД (тест прошел)
     @Test
     public void shouldHaveNumberIfOutOfBase() {
         val cardData = getNumberIfNotExistInBase();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.failureResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.failureResultNotification();
     }
 
     // Оплата картой разных форматов, которых нет в БД (тест не проходит, если количество цифр в карте меньше или больше
@@ -117,24 +117,24 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFakerCard() {
         val cardData = getNumberFaker();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.failureResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.failureResultNotification();
     }
 
     // Пустое поле Месяц (тест не прошел, неверная ошибка "Неверный формат" вместо "Поле обязательно для заполнения")
     @Test
     public void shouldHaveEmptyMonth() {
         val cardData = getEmptyMonth();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.emptyFieldError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.emptyFieldError();
     }
 
     // Ввод в поле Месяц нулевых значений (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveMonthWithZero() {
         val cardData = getMonthWithZero();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.invalidCardExpirationDateError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.invalidCardExpirationDateError();
     }
 
     // Ввод в поле Месяц значения больше 12 (тест прошел, но в качестве пожелания лучше указать ошибку "Введите срок
@@ -142,32 +142,32 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveMonthMore12() {
         val cardData = getMonthMore12();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.invalidCardExpirationDateError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.invalidCardExpirationDateError();
     }
 
     // Ввод в поле Месяц 1 цифры (тест прошел)
     @Test
     public void shouldHaveMonthWithOneDigit() {
         val cardData = getMonthWithOneDigit();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Месяц буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldMonthFieldWithLetters() {
         val cardData = getLettersMonth();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Пустое поле Год (тест не прошел, ошибка Неверный формат, а не Поле обязательно для заполнения)
     @Test
     public void shouldHaveEmptyYear() {
         val cardData = getEmptyYear();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.emptyFieldError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.emptyFieldError();
     }
 
     // Истек срок действия карты (тест не прошел, неверная ошибка "Неверно указан срок действия карты" вместо
@@ -175,80 +175,80 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveYearBeforeCurrentYear() {
         val cardData = getExpiredCard();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.expiredDatePassError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.expiredDatePassError();
     }
 
     // Год намного позднее текущего (тест прошел)
     @Test
     public void shouldHaveYearInTheFarFuture() {
         val cardData = getInvalidYearIfInTheFarFuture();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.invalidCardExpirationDateError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.invalidCardExpirationDateError();
     }
 
     // Поле Год с одной цифрой (тест прошел)
     @Test
     public void shouldHaveYearWithOneDigit() {
         val cardData = getYearWithOneDigit();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Год буквенных символов (тест прошел, поле осталось незаполненным)
     @Test
     public void shouldYearFieldWithLetters() {
         val cardData = getYearLetters();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Поле Год с нулевыми значениями (тест прошел)
     @Test
     public void shouldHaveYearWithZero() {
         val cardData = getYearWithZero();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.expiredDatePassError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.expiredDatePassError();
     }
 
     // Пустое поле Владелец (тест прошел)
     @Test
     public void shouldHaveEmptyHolder() {
         val cardData = getEmptyHolder();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.emptyFieldError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.emptyFieldError();
     }
 
     // Ввод в поле Владелец только фамилии (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveHolderWithoutName() {
         val cardData = getHolderWithoutName();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Указание Владельца кириллицей (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveRussianHolder() {
         val cardData = getRussianHolder();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Владелец цифр (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveDigitsInHolder() {
         val cardData = getDigitsInHolder();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Поле Владелец с указанием спецсимволов (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveSpecialCharactersInHolder() {
         val cardData = getSpecialCharactersInHolder();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Владелец большого количества пробелов между фамилией и именем (тест не прошел, оплата успешная.
@@ -256,8 +256,8 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManySpaces() {
         val cardData = getHolderWithManySpaces();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Ввод в поле Владелец большого количества символов (тест не прошел, оплата успешная. Необходима доработка в виде
@@ -265,31 +265,31 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManyLetters() {
         val cardData = getHolderWithManyLetters();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Указание в поле Владелец фамилии через дефис (тест прошел)
     @Test
     public void shouldHaveHolderSurnameWithDash() {
         val cardData = getHolderSurnameWithDash();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.successResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.successResultNotification();
     }
 
     // Указание в поле Владелец имени через дефис (тест прошел)
     @Test
     public void shouldHaveHolderNameWithDash() {
         val cardData = getHolderNameWithDash();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.successResultNotification();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.successResultNotification();
     }
 
     // Пустое поле CVC-код (тест не прошел, ошибка появляется под полем Владелец)
     @Test
     public void shouldHaveEmptyCvcCode() {
         val cardData = getEmptyCvcCode();
-        purchasePage.completedPurchaseForm(cardData);
+        creditPayPage.completedPurchaseForm(cardData);
         final ElementsCollection fieldSub = $$(".input__sub");
         final SelenideElement cvvFieldSub = fieldSub.get(2);
         cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
@@ -299,31 +299,31 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveCvcCodeWithTwoDigits() {
         val cardData = getCvcCodeWithTwoDigits();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
     @Test
     public void shouldCvcCodeFieldWithLetters() {
         val cardData = getCvcCodeWithZero();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Поле CVC-код с буквенными символами (тест прошел)
     @Test
     public void shouldHaveCvcCodeWithZero() {
         val cardData = getCvcCodeLetters();
-        purchasePage.completedPurchaseForm(cardData);
-        purchasePage.incorrectFormatError();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
     }
 
     // Все поля формы пустые (тест не прошел, ошибка "Неверный формат" во всех полях кроме поля Владелец)
     @Test
     public void shouldHaveEmptyAllFields() {
         val cardData = getCardDataIfEmptyAllFields();
-        purchasePage.completedPurchaseForm(cardData);
+        creditPayPage.completedPurchaseForm(cardData);
         final ElementsCollection fieldSub = $$(".input__sub");
         final SelenideElement cardNumberFieldSub = fieldSub.get(1);
         final SelenideElement monthFieldSub = fieldSub.get(2);
