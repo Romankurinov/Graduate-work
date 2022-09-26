@@ -1,15 +1,10 @@
 package ru.netology.test;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import lombok.val;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.pages.CreditPayPage;
 import ru.netology.pages.PaymentChoosePage;
 
-import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.netology.data.DataHelper.*;
@@ -18,18 +13,14 @@ import static ru.netology.data.SQLHelper.getBankId;
 
 public class PayByCreditTest extends BaseUITest {
 
+    private CreditPayPage creditPayPage;
     PaymentChoosePage paymentChoosePage = new PaymentChoosePage();
-    CreditPayPage creditPayPage = new CreditPayPage();
-
-    @BeforeEach
-    void setUpForPayWithCard() {
-        paymentChoosePage.payWithCredit();
-    }
 
     // Успешная покупка тура за счет кредитных средств, карта со статусом APPROVED (тест прошел)
     @Test
     public void shouldSuccessCreditRequestIfValidApprovedCard() {
         val cardData = getApprovedNumber();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.successResultNotification();
 
@@ -48,6 +39,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldFailureCreditRequestIfValidDeclinedCard() {
         val cardData = getDeclinedNumber();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.failureResultNotification();
 
@@ -67,6 +59,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyNumber() {
         val cardData = getEmptyNumber();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.emptyFieldError();
     }
@@ -76,6 +69,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFewDigits() {
         val cardData = getNumberIfFewDigits();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -84,6 +78,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveErrorTextIfPutTextInCardNumber() {
         val cardData = getLetters();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -92,22 +87,25 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveErrorNotificationIfPutUnrealCardNumber() {
         val cardData = getNonExistentCardNumber();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
-        creditPayPage.incorrectFormatError();
+        creditPayPage.failureResultNotification();
     }
 
     // Ввод нулей в поле Номер карты (тест прошел)
     @Test
     public void shouldAnErrorAppearWhenEnteringZerosInTheCardNumber() {
         val cardData = getEnteringZeros();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
-        creditPayPage.incorrectFormatError();
+        creditPayPage.failureResultNotification();
     }
 
     // Оплата картой, которой нет в БД (тест прошел)
     @Test
     public void shouldHaveNumberIfOutOfBase() {
         val cardData = getNumberIfNotExistInBase();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.failureResultNotification();
     }
@@ -117,6 +115,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFakerCard() {
         val cardData = getNumberFaker();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.failureResultNotification();
     }
@@ -125,6 +124,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyMonth() {
         val cardData = getEmptyMonth();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.emptyFieldError();
     }
@@ -133,6 +133,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveMonthWithZero() {
         val cardData = getMonthWithZero();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.invalidCardExpirationDateError();
     }
@@ -142,6 +143,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveMonthMore12() {
         val cardData = getMonthMore12();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.invalidCardExpirationDateError();
     }
@@ -150,6 +152,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveMonthWithOneDigit() {
         val cardData = getMonthWithOneDigit();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -158,6 +161,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldMonthFieldWithLetters() {
         val cardData = getLettersMonth();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -166,6 +170,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyYear() {
         val cardData = getEmptyYear();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.emptyFieldError();
     }
@@ -175,6 +180,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveYearBeforeCurrentYear() {
         val cardData = getExpiredCard();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.expiredDatePassError();
     }
@@ -183,6 +189,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveYearInTheFarFuture() {
         val cardData = getInvalidYearIfInTheFarFuture();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.invalidCardExpirationDateError();
     }
@@ -191,6 +198,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveYearWithOneDigit() {
         val cardData = getYearWithOneDigit();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -199,6 +207,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldYearFieldWithLetters() {
         val cardData = getYearLetters();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -207,6 +216,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveYearWithZero() {
         val cardData = getYearWithZero();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.expiredDatePassError();
     }
@@ -215,6 +225,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyHolder() {
         val cardData = getEmptyHolder();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.emptyFieldError();
     }
@@ -223,6 +234,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithoutName() {
         val cardData = getHolderWithoutName();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -231,6 +243,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveRussianHolder() {
         val cardData = getRussianHolder();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -239,6 +252,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveDigitsInHolder() {
         val cardData = getDigitsInHolder();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -247,6 +261,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveSpecialCharactersInHolder() {
         val cardData = getSpecialCharactersInHolder();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -256,6 +271,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManySpaces() {
         val cardData = getHolderWithManySpaces();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -265,6 +281,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManyLetters() {
         val cardData = getHolderWithManyLetters();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -273,6 +290,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderSurnameWithDash() {
         val cardData = getHolderSurnameWithDash();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.successResultNotification();
     }
@@ -281,6 +299,7 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveHolderNameWithDash() {
         val cardData = getHolderNameWithDash();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.successResultNotification();
     }
@@ -289,32 +308,34 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyCvcCode() {
         val cardData = getEmptyCvcCode();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
-        final ElementsCollection fieldSub = $$(".input__sub");
-        final SelenideElement cvvFieldSub = fieldSub.get(2);
-        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        creditPayPage.notificationOfAnEmptyCVCField();
     }
 
     // Поле CVC-код с 2 цифрами (тест прошел, но необходима доработка в виде сообщения "Поле должно состоять из 3 цифр")
     @Test
     public void shouldHaveCvcCodeWithTwoDigits() {
         val cardData = getCvcCodeWithTwoDigits();
-        creditPayPage.completedPurchaseForm(cardData);
-        creditPayPage.incorrectFormatError();
-    }
-
-    // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
-    @Test
-    public void shouldCvcCodeFieldWithLetters() {
-        val cardData = getCvcCodeWithZero();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
 
     // Поле CVC-код с буквенными символами (тест прошел)
     @Test
-    public void shouldHaveCvcCodeWithZero() {
+    public void shouldCvcCodeFieldWithLetters() {
         val cardData = getCvcCodeLetters();
+        creditPayPage = paymentChoosePage.payWithCredit();
+        creditPayPage.completedPurchaseForm(cardData);
+        creditPayPage.incorrectFormatError();
+    }
+
+    // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
+    @Test
+    public void shouldHaveCvcCodeWithZero() {
+        val cardData = getCvcCodeWithZero();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
         creditPayPage.incorrectFormatError();
     }
@@ -323,17 +344,9 @@ public class PayByCreditTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyAllFields() {
         val cardData = getCardDataIfEmptyAllFields();
+        creditPayPage = paymentChoosePage.payWithCredit();
         creditPayPage.completedPurchaseForm(cardData);
-        final ElementsCollection fieldSub = $$(".input__sub");
-        final SelenideElement cardNumberFieldSub = fieldSub.get(1);
-        final SelenideElement monthFieldSub = fieldSub.get(2);
-        final SelenideElement yearFieldSub = fieldSub.get(3);
-        final SelenideElement holderFieldSub = fieldSub.get(4);
-        final SelenideElement cvvFieldSub = fieldSub.get(5);
-        cardNumberFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        monthFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        yearFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        holderFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        creditPayPage.emptyFieldError();
+        creditPayPage.notificationOfAllEmptyFields();
     }
 }

@@ -1,37 +1,22 @@
 package ru.netology.test;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import lombok.val;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.netology.pages.PaymentChoosePage;
 import ru.netology.pages.CashPaymentPage;
 
-import static com.codeborne.selenide.Selenide.$$;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static ru.netology.data.DataHelper.*;
 import static ru.netology.data.SQLHelper.*;
 
 public class PayByCardTest extends BaseUITest {
-
-    PaymentChoosePage paymentChoosePage = new PaymentChoosePage();
-    CashPaymentPage cashPaymentPage = new CashPaymentPage();
-
-    @BeforeEach
-    void setUpForPayWithCard() {
-        paymentChoosePage.payPaymentChoosePage();
-        paymentChoosePage.payWithCard();
-    }
-
-
+    private CashPaymentPage cashPaymentPage;
 
     // Успешная покупка, карта со статусом APPROVED (тест прошел)
     @Test
     public void shouldSuccessPayIfValidApprovedCard() {
         val cardData = getApprovedNumber();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.successResultNotification();
 
@@ -54,6 +39,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldFailurePayIfValidDeclinedCard() {
         val cardData = getDeclinedNumber();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.failureResultNotification();
 
@@ -73,6 +59,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyNumber() {
         val cardData = getEmptyNumber();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.emptyFieldError();
     }
@@ -82,6 +69,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFewDigits() {
         val cardData = getNumberIfFewDigits();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -90,6 +78,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveErrorTextIfPutTextInCardNumber() {
         val cardData = getLetters();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -98,6 +87,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveErrorNotificationIfPutUnrealCardNumber() {
         val cardData = getNonExistentCardNumber();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.failureResultNotification();
     }
@@ -106,6 +96,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldAnErrorAppearWhenEnteringZerosInTheCardNumber() {
         val cardData = getEnteringZeros();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.failureResultNotification();
     }
@@ -114,6 +105,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfOutOfBase() {
         val cardData = getNumberIfNotExistInBase();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.failureResultNotification();
     }
@@ -123,6 +115,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveNumberIfFakerCard() {
         val cardData = getNumberFaker();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.failureResultNotification();
     }
@@ -131,6 +124,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyMonth() {
         val cardData = getEmptyMonth();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.emptyFieldError();
     }
@@ -139,6 +133,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveMonthWithZero() {
         val cardData = getMonthWithZero();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.invalidCardExpirationDateError();
     }
@@ -147,6 +142,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveMonthMore12() {
         val cardData = getMonthMore12();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.invalidCardExpirationDateError();
     }
@@ -155,6 +151,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveMonthWithOneDigit() {
         val cardData = getMonthWithOneDigit();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -163,6 +160,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldMonthFieldWithLetters() {
         val cardData = getLettersMonth();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -171,6 +169,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyYear() {
         val cardData = getEmptyYear();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.emptyFieldError();
     }
@@ -180,6 +179,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveYearBeforeCurrentYear() {
         val cardData = getExpiredCard();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.expiredDatePassError();
     }
@@ -188,6 +188,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveYearInTheFarFuture() {
         val cardData = getInvalidYearIfInTheFarFuture();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.invalidCardExpirationDateError();
     }
@@ -196,6 +197,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveYearWithOneDigit() {
         val cardData = getYearWithOneDigit();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -204,6 +206,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldYearFieldWithLetters() {
         val cardData = getYearLetters();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -212,6 +215,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveYearWithZero() {
         val cardData = getYearWithZero();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.expiredDatePassError();
     }
@@ -220,6 +224,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyHolder() {
         val cardData = getEmptyHolder();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.emptyFieldError();
     }
@@ -228,6 +233,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithoutName() {
         val cardData = getHolderWithoutName();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -236,6 +242,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveRussianHolder() {
         val cardData = getRussianHolder();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -244,6 +251,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveDigitsInHolder() {
         val cardData = getDigitsInHolder();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -252,6 +260,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveSpecialCharactersInHolder() {
         val cardData = getSpecialCharactersInHolder();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -261,6 +270,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManySpaces() {
         val cardData = getHolderWithManySpaces();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -270,6 +280,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveHolderWithManyLetters() {
         val cardData = getHolderWithManyLetters();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -278,6 +289,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveHolderSurnameWithDash() {
         val cardData = getHolderSurnameWithDash();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.successResultNotification();
     }
@@ -286,6 +298,7 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveHolderNameWithDash() {
         val cardData = getHolderNameWithDash();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.successResultNotification();
     }
@@ -294,24 +307,25 @@ public class PayByCardTest extends BaseUITest {
     @Test
     public void shouldHaveEmptyCvcCode() {
         val cardData = getEmptyCvcCode();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
-        final ElementsCollection fieldSub = $$(".input__sub");
-        final SelenideElement cvvFieldSub = fieldSub.get(2);
-        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        cashPaymentPage.notificationOfAnEmptyCVCField();
     }
 
     // Поле CVC-код с 2 цифрами (тест прошел, но необходима доработка в виде сообщения "Поле должно состоять из 3 цифр")
     @Test
     public void shouldHaveCvcCodeWithTwoDigits() {
         val cardData = getCvcCodeWithTwoDigits();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
 
-    // Поле CVC-код с буквенными символами (тест не прошел)
+    // Поле CVC-код с буквенными символами (тест прошел)
     @Test
     public void shouldCvcCodeFieldWithLetters() {
-        val cardData = getCvcCodeWithZero();
+        val cardData = getCvcCodeLetters();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
         cashPaymentPage.incorrectFormatError();
     }
@@ -319,26 +333,19 @@ public class PayByCardTest extends BaseUITest {
     // Поле CVC-код с нулевыми значениями (тест не прошел, оплата успешная)
     @Test
     public void shouldHaveCvcCodeWithZero() {
-        val cardData = getCvcCodeLetters();
+        val cardData = getCvcCodeWithZero();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
-        cashPaymentPage.incorrectFormatError();
+        cashPaymentPage.failureResultNotification();
     }
 
     // Все поля формы пустые (тест не прошел, ошибка "Неверный формат" во всех полях кроме поля Владелец)
     @Test
     public void shouldHaveEmptyAllFields() {
         val cardData = getCardDataIfEmptyAllFields();
+        cashPaymentPage = paymentChoosePage.payWithCard();
         cashPaymentPage.completedPurchaseForm(cardData);
-        final ElementsCollection fieldSub = $$(".input__sub");
-        final SelenideElement cardNumberFieldSub = fieldSub.get(1);
-        final SelenideElement monthFieldSub = fieldSub.get(2);
-        final SelenideElement yearFieldSub = fieldSub.get(3);
-        final SelenideElement holderFieldSub = fieldSub.get(4);
-        final SelenideElement cvvFieldSub = fieldSub.get(5);
-        cardNumberFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        monthFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        yearFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        holderFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
-        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        cashPaymentPage.incorrectFormatError();
+        cashPaymentPage.notificationOfAllEmptyFields();
     }
 }

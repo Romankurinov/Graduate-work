@@ -60,4 +60,24 @@ public class CreditPayPage {
     public void failureResultNotification() {
         failureResult.shouldHave(Condition.visible, Duration.ofSeconds(20));
     }
+
+    public void notificationOfAnEmptyCVCField () {
+        final ElementsCollection fieldSub = $$(".input__sub");
+        final SelenideElement cvvFieldSub = fieldSub.get(2);
+        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+    }
+
+    public void notificationOfAllEmptyFields () {
+        final ElementsCollection fieldSub = $$(".input__sub");
+        final SelenideElement cardNumberFieldSub = fieldSub.get(1);
+        final SelenideElement monthFieldSub = fieldSub.get(2);
+        final SelenideElement yearFieldSub = fieldSub.get(3);
+        final SelenideElement holderFieldSub = fieldSub.get(4);
+        final SelenideElement cvvFieldSub = fieldSub.get(5);
+        cardNumberFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        monthFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        yearFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        holderFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+        cvvFieldSub.shouldHave(Condition.text("Поле обязательно для заполнения"));
+    }
 }

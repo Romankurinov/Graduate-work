@@ -7,15 +7,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import ru.netology.data.SQLHelper;
+import ru.netology.pages.PaymentChoosePage;
 
 import static com.codeborne.selenide.Selenide.open;
 
 public class BaseUITest {
+    protected PaymentChoosePage paymentChoosePage;
+
+    @BeforeEach
+    void setUpSutUrl() {
+        paymentChoosePage = open(System.getProperty("sut.url"), PaymentChoosePage.class);
+    }
 
     @BeforeAll
     static void setUpAll() {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
+
 
     @AfterAll
     static void tearDownAll() {
@@ -26,8 +34,5 @@ public class BaseUITest {
         SQLHelper.dropDataBase();
     }
 
-    @BeforeEach
-    void setUpSutUrl() {
-        open(System.getProperty("sut.url"));
-    }
+
 }

@@ -3,6 +3,7 @@ Thumbs.db*
 HELP.md
 .gradle
 build/
+$
 
 ### STS ###
 .apt_generated
@@ -26,6 +27,8 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+$/dev/ort
+
 
 ### VS Code ###
 .vscode/
