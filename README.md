@@ -46,23 +46,23 @@
 - `java "-Dserver.port=8090 -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app" -jar artifacts/aqa-shop.jar` - для БД PostgreSQL
 
 5. В новой вкладке терминала введите команду в зависимости от запущенной ранее БД:
-- `gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app` - для БД MySQL
+- `./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app"` - для БД MySQL
 
-- `gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app` - для БД PostgreSQL
+- `./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app"` - для БД PostgreSQL
 
 
 ## Подготовка отчета Allure
 При необходимости создания отчета тестирования, запустите тесты следующим образом:
-- `gradlew clean test -Ddb.url=jdbc:mysql://localhost:3306/app allureReport` - для БД MysSQL
+- `./gradlew clean test "-Ddb.url=jdbc:mysql://localhost:3306/app" allureReport` - для БД MysSQL
 
-- `gradlew clean test -Ddb.url=jdbc:postgresql://localhost:5432/app allureReport` - для БД Postgresql
+- `./gradlew clean test "-Ddb.url=jdbc:postgresql://localhost:5432/app" allureReport` - для БД Postgresql
 
 `allureReport` - используется при первой генерации отчета.
 
 При повторной генерации отчета необходимо запускать тесты командой:
-- `gradlew test -Ddb.url=jdbc:mysql://localhost:3306/app allureServe` - для БД MysSQL
+- `./gradlew test "-Ddb.url=jdbc:mysql://localhost:3306/app" allureServe` - для БД MysSQL
 
-- `gradlew test -Ddb.url=jdbc:postgresql://localhost:5432/app allureServe` - для БД Postgresql
+- `./gradlew test "-Ddb.url=jdbc:postgresql://localhost:5432/app" allureServe` - для БД Postgresql
 
 Отчет открывается после прохождения тестов автоматически в браузере по умолчанию.
 
