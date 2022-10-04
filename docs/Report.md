@@ -11,30 +11,28 @@
 ## Итоги тестирования
 
 ### *При подключении к БД MySQL*
-
-<img alt="Allure Report SQL 1" src="img.png"/>
+![Allure Report SQL 1](img.png)
 
 - Успешных кейсов 55% (38 кейсов)
 - Неуспешных кейсов 45% (30 кейсов)
 
-<img alt="Allure Report SQL 2" src="img_1.png"/>
-<img alt="Allure Report SQL 3" src="img_2.png"/>
-<img alt="Allure Report SQL 4" src="img_3.png"/>
-<img alt="Allure Report SQL 5" src="img_4.png"/>
+![Allure Report SQL 2](img_1.png)
+![Allure Report SQL 3](img_2.png)
+![Allure Report SQL 4](img_3.png)
+![Allure Report SQL 5](img_4.png)
 
 ---
 
 ### *При подключении к БД PostgreSQL*
-
-<img alt="Allure Report PostgreSQL" src="img_5.png"/>
+![Allure Report PostgreSQL](img_5.png)
 
 - Успешных кейсов 53% (36 кейсов)
 - Неуспешных кейсов 47% (32 кейсов)
 
-<img alt="Allure Report PostgreSQL 1" src="img_6.png"/>
-<img alt="Allure Report PostgreSQL 2" src="img_8.png"/>
-<img alt="Allure Report PostgreSQL 3" src="img_9.png"/>
-<img alt="Allure Report PostgreSQL 4" src="img_10.png"/>
+![Allure Report PostgreSQL 1](img_6.png)
+![Allure Report PostgreSQL 2](img_8.png)
+![Allure Report PostgreSQL 3](img_9.png)
+![Allure Report PostgreSQL 4](img_10.png)
 
 ---
 ## Общие рекомендации
