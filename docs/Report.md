@@ -12,28 +12,28 @@
 
 ### *При подключении к БД MySQL*
 
-![Allure Report SQL 1](img.png)
+![Allure Report SQL 1](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img.png)
 
 - Успешных кейсов 55% (38 кейсов)
 - Неуспешных кейсов 45% (30 кейсов)
 
-![Allure Report SQL 2](img_1.png)
-![Allure Report SQL 3](img_2.png)
-![Allure Report SQL 4](img_3.png)
-![Allure Report SQL 5](img_4.png)
+![Allure Report SQL 2](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_1.png)
+![Allure Report SQL 3](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_2.png)
+![Allure Report SQL 4](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_3.png)
+![Allure Report SQL 5](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_4.png)
 
 ---
 
 ### *При подключении к БД PostgreSQL*
-![Allure Report PostgreSQL](img_5.png)
+![Allure Report PostgreSQL](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_5.png)
 
 - Успешных кейсов 53% (36 кейсов)
 - Неуспешных кейсов 47% (32 кейсов)
 
-![Allure Report PostgreSQL 1](img_6.png)
-![Allure Report PostgreSQL 2](img_8.png)
-![Allure Report PostgreSQL 3](img_9.png)
-![Allure Report PostgreSQL 4](img_10.png)
+![Allure Report PostgreSQL 1](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_6.png)
+![Allure Report PostgreSQL 2](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_8.png)
+![Allure Report PostgreSQL 3](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_9.png)
+![Allure Report PostgreSQL 4](https://raw.githubusercontent.com/Romankurinov/Graduate-work/main/.github/images/img_10.png)
 
 ---
 ## Общие рекомендации
