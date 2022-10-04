@@ -11,7 +11,8 @@
 ## Итоги тестирования
 
 ### *При подключении к БД MySQL*
-![Allure Report SQL 1](img.png)
+
+![Allure Report SQL 1](https://github.com/Romankurinov/Graduate-work/blob/main/.github/img.png)
 
 - Успешных кейсов 55% (38 кейсов)
 - Неуспешных кейсов 45% (30 кейсов)
